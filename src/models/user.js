@@ -8,21 +8,31 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      User.hasMany(models.Classes);
-      User.hasOne(models.User_social);
+      User.belongsToMany(models.Classes, {
+        through: "classes_teachers",
+        foreignKey:"teacherId"
+      });
+      User.hasMany(models.User_social);
       User.hasOne(models.User_otp);
       User.hasOne(models.User_column);
       User.hasMany(models.Teacher_calendar);
       User.hasMany(models.Submid_exercises);
-      User.hasMany(models.Student_class);
+      User.hasOne(models.Student_class, {
+        foreignKey: "studentId",
+      });
       User.hasMany(models.Student_attendance);
       User.hasOne(models.Login_token);
       User.hasOne(models.Information_persional);
-      User.hasMany(models.Course);
+      User.hasMany(models.Course, {
+        foreignKey: "teacherId",
+      });
       User.hasMany(models.Comment);
       User.belongsToMany(models.Role, {
         through: "user_role",
         foreignKey: "userId",
+      });
+      User.belongsTo(models.Type, {
+        foreignKey: "typeId",
       });
     }
   }

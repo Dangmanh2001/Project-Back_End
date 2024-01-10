@@ -27,6 +27,15 @@ module.exports = {
           key: "id",
         },
       },
+      statusId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: "Learning_statuses",
+          },
+          key: "id",
+        },
+      },
       completeDate: {
         type: Sequelize.DATE,
       },

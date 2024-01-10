@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       Student_class.belongsTo(models.Classes, {
         foreignKey: "classId",
       });
+      Student_class.belongsTo(models.Learning_status, {
+        foreignKey: "statusId",
+      });
     }
   }
   Student_class.init(
@@ -22,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
       },
       studentId: DataTypes.INTEGER,
       classId: DataTypes.INTEGER,

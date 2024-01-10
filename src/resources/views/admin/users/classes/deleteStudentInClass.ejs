@@ -1,0 +1,38 @@
+<h1>Quản lý học viên</h1>
+<div class="mb-2">
+  <a href="/admin/addStudent" class="btn btn-primary mb-2">Thêm mới</a>
+  <div class="row">
+    <div class="col-10">
+      <input
+        type="text"
+        name="keyword"
+        class="form-control"
+        placeholder="Nhập từ khóa cần tìm..."
+      />
+    </div>
+    <div class="col-2">
+      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+  </div>
+</div>
+<form method="post">
+  <table class="table table-bordered">
+    <tr>
+      <th>STT</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Chọn</th>
+    </tr>
+    <% students?.forEach((e,index) => { %> <%if(e.Student_class?.classId===+id){%>
+    <tr>
+      <td><%=index+1 %></td>
+      <td><%= e.name %></td>
+      <td><%= e.email %></td>
+      <td>
+        <input type="checkbox" value="<%=e.id %>" name="studentId" />
+      </td>
+    </tr>
+    <% } %> <% }); %>
+  </table>
+  <button class="btn btn-danger" type="submit">Xóa học viên</button>
+</form>

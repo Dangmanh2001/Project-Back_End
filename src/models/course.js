@@ -1,6 +1,5 @@
 "use strict";
 const { Model } = require("sequelize");
-const { mapFinderOptions } = require("sequelize/types/utils");
 module.exports = (sequelize, DataTypes) => {
   class Course extends Model {
     /**
@@ -12,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       Course.belongsTo(models.User, {
         foreignKey: "teacherId",
       });
+
       Course.hasOne(models.Course_modules);
     }
   }

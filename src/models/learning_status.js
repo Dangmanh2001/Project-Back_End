@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Learning_status.hasMany(models.Student_class, {
+        foreignKey: "statusId",
+      });
     }
   }
   Learning_status.init(

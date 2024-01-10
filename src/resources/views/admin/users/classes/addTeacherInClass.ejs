@@ -1,0 +1,33 @@
+<h1>Thêm giảng viên vào lớp học</h1>
+
+<form method="post">
+  <table class="table table-bordered">
+    <tr>
+      <th>STT</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Chọn</th>
+    </tr>
+    <% let index = 0%> <% teachers?.forEach((e) => { %><% if(e.Classes.length){
+    %> <% e.Classes.forEach(element => {%> <% if(element.id !== +id){%>
+    <tr>
+      <td><%=++index %></td>
+      <td><%= e.name %></td>
+      <td><%= e.email %></td>
+      <td>
+        <input type="checkbox" value="<%=e.id %>" name="studentId" />
+      </td>
+    </tr>
+    <%} %> <%}); %> <% }else{%>
+    <tr>
+      <td><%=++index %></td>
+      <td><%= e.name %></td>
+      <td><%= e.email %></td>
+      <td>
+        <input type="checkbox" value="<%=e.id %>" name="studentId" />
+      </td>
+    </tr>
+    <%} %><% }); %>
+  </table>
+  <button class="btn btn-success" type="submit">Thêm học viên</button>
+</form>

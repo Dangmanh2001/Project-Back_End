@@ -30,6 +30,7 @@ module.exports = {
       },
       first_login: {
         type: Sequelize.BOOLEAN,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,

@@ -1,0 +1,65 @@
+<style>
+  .s{
+    display: flex;
+    justify-content: inherit;
+  }
+</style>
+
+<!-- /.login-logo -->
+
+<div class="row">
+  <div class="col-4">
+    <div class="social-auth-links text-center row justify-content-center">
+      
+
+        
+
+        <%- providerFb?.provider==="facebook"? '<a href="/admin/delete/facebook" class="btn btn-block btn-primary"><i class="fab fa-facebook mr-2"></i> Hủy liên kết</a>':'<a href="/auth/facebook/redirect" class="btn btn-block btn-primary"><i class="fab fa-facebook mr-2"></i> Liên kết với Facebook</a>' %>
+      
+      
+        <%- providerGg?.provider==="google"? '<a href="/admin/delete/google" class="btn btn-block btn-danger"><i class="fab fa-google-plus mr-2"></i> Hủy liên kết</a>':'<a href="/auth/google/redirect" class="btn btn-block btn-danger"><i class="fab fa-google-plus mr-2"></i> Liên kết với Google</a>' %>
+      
+        <%- providerGh?.provider==="github"? '<a href="/admin/delete/github" class="btn btn-block btn-secondary"><i class="fab fa-github mr-2"></i> Hủy liên kết</a>':'<a href="/auth/github/redirect" class="btn btn-block btn-secondary"><i class="fab fa-github mr-2"></i> Liên kết với Github</a>' %>
+    </div>
+  </div>
+  
+</div>
+
+<div class="card-body">
+  <label class="text-danger"><%= message %></label>
+  <form method="post">
+    <a>Tên:</a>
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        name="text"
+        class="form-control"
+        value="<%=user.name  %>"
+      />
+    </div>
+    <a>Địa chỉ:</a>
+    <div class="input-group mb-3">
+      <input type="text" name="provider" class="form-control" value="Hà Nội" />
+    </div>
+
+    <a>Số điện thoại:</a>
+    <div class="input-group mb-3">
+      <input type="text" name="phone" class="form-control" value="0123456789" />
+    </div>
+    <div class="row">
+      <div class="col-10"></div>
+      <div class="col-2">
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- /.social-auth-links -->
+</div>
+<!-- /.card-body -->
+
+<!-- /.card -->
+
+<!-- /.login-box -->
+
+<!-- jQuery -->

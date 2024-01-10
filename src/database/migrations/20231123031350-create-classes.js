@@ -11,6 +11,7 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
+        unique:true
       },
       number_of_student: {
         type: Sequelize.INTEGER,
@@ -22,19 +23,10 @@ module.exports = {
         type: Sequelize.DATE,
       },
       schedule: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.STRING,
       },
       study_time: {
         type: Sequelize.STRING,
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: "users",
-          },
-          key: "id",
-        },
       },
       createdAt: {
         allowNull: false,
