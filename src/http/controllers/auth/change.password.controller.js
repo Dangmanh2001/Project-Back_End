@@ -28,9 +28,14 @@ module.exports = {
         },
       }
     );
+      const user = await model.User.findOne({
+        where:{
+          email: req.session.emailForgot
+        }
+      })
     await model.User_otp.destroy({
       where: {
-        email: req.session.emailForgot,
+        userId:user.id,
       },
     });
     delete req.session.emailForgot;

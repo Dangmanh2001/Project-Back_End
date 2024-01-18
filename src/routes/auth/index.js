@@ -1,17 +1,17 @@
 const passport = require("passport");
 var express = require("express");
-const verifyMiddleware = require("../../http/middlewares/verify.middleware");
 var router = express.Router();
 const authController = require("../../http/controllers/auth/login.controller");
 const authController1 = require("../../http/controllers/auth/forgot.controller");
 const authController2 = require("../../http/controllers/auth/otp.controller");
 const authController3 = require("../../http/controllers/auth/change.password.controller");
 
-const guestMiddleware = require("../../http/middlewares/guest.middleware");
+
 const otpMiddleware = require("../../http/middlewares/otp.middleware");
+const redirectMiddleware = require("../../http/middlewares/redirect.middleware");
 
 /* GET home page. */
-router.get("/login", guestMiddleware, authController.index);
+router.get("/login", redirectMiddleware, authController.index);
 router.get("/forgot", authController1.forgot);
 router.post("/forgot", authController1.handleForgot);
 router.get("/otp", otpMiddleware, authController2.otp);
@@ -58,7 +58,7 @@ router.post(
 );
 router.get("/logout", function (req, res, next) {
   req.logout()
-    
+    delete req.session.status
     delete req.session.verify
     res.clearCookie("token");
     res.redirect("/auth/login");

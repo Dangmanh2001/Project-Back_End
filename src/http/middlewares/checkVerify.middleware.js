@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-  if (req.user) {
+  if (req.session.verify) {
     
     switch (req.user?.typeId) {
       case 1:

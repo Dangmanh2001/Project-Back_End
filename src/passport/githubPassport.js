@@ -34,6 +34,7 @@ module.exports = new GitHubStrategy(
       
       return cb(null, user);
     }
+    req.session.status="1"
     const providerLink = await User_social.findOne({
       where: {
         [Op.and]: [{ providerId: id }, { provider: provider }],
@@ -46,11 +47,11 @@ module.exports = new GitHubStrategy(
         provider,
         providerId: id,
       });
-      req.session.status = "1"
+    
       req.session.verify = "done";
       return cb(null, req.user);
     }
-
+    req.session.status = "1"
     return cb(null, false, {
       message: "Tài khoản này đã được liên kết",
     });

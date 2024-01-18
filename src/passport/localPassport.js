@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const model = require("../models/index");
 var rn = require("random-number");
 const nodemailer = require("nodemailer");
+const sendMail = require("../http/utils/sendMail");
 
 module.exports = new LocalStrategy(
   {
@@ -54,30 +55,8 @@ module.exports = new LocalStrategy(
               userId: user.id,
             },
           });
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
-            auth: {
-              user: "phaodai2000@gmail.com",
-              pass: "huzx vhve jccv uzni",
-            },
-          });
-      
-          // send mail with defined transport object
-          async function main() {
-            // send mail with defined transport object
-            const info = await transporter.sendMail({
-              from: '"Fred Foo 👻" <phaodai2000@gmail.com>', // sender address
-              to: user.email, // list of receivers
-              subject: "OTP", // Subject line
-              text: "Hello", // plain text body
-              html: `<b>This is your otp:${otpSend.otp}</b>`, // html body
-            });
-      
-            console.log("Message sent: %s", info.messageId);
-          }
-          main();
+        sendMail(user.email,"OTP","Hello",`<b>This is your otp:${otpSend.otp}</b>`)
+
         console.log(user.first_login);
         if (!user.first_login) {
           

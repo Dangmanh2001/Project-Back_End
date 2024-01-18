@@ -40,7 +40,8 @@ module.exports = new FacebookStrategy(
 
       return cb(null, user);
     }
-
+    req.session.status="1"
+    
     const providerLink = await User_social.findOne({
       where: {
         [Op.and]: [{ providerId: id }, { provider: provider }],
@@ -56,10 +57,11 @@ module.exports = new FacebookStrategy(
 
       // Lưu giá trị vào session
       req.session.verify = "done";
-      req.session.status = "1"
+      
       return cb(null, req.user);
     }
-
+    
+    
     return cb(null, false, {
       message: "Tài khoản này đã được liên kết",
     });

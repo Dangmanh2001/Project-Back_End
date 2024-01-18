@@ -6,6 +6,6 @@ module.exports =async (req, res, next) => {
       res.redirect("/verification");
       return;
     }
-    next();
+    next()
   };
   

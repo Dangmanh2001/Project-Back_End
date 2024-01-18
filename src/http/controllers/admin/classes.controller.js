@@ -1,18 +1,13 @@
 const model = require("../../../models/index");
 const { Op } = require("sequelize");
-const bcrypt = require("bcrypt");
-var randomstring = require("randomstring");
-const nodemailer = require("nodemailer");
-const paginate = require("sequelize-paginate");
-const XLSX = require("xlsx");
-const fs = require("fs");
-const path = require("path");
-const os = require("os");
 const exportExcel = require("../../utils/exportExcel");
+const getAllDays = require("../../utils/getAllDays");
+
 let data = null;
 
 module.exports = {
   class: async (req, res) => {
+    const content = "Quản lý lớp học"
     const { keyword, page = 1, limit = 3 } = req.query;
     const filters = [];
     if (keyword) {
@@ -43,6 +38,7 @@ module.exports = {
     const user = req.user;
 
     res.render("admin/dashboard/class", {
+      content,
       user,
       req,
       message,
@@ -68,6 +64,7 @@ module.exports = {
     res.redirect("/admin/classes");
   },
   addClass: async (req, res) => {
+    const content = "Thêm lớp học"
     const user = req.user;
     const message = req.flash("message");
     const teachers = await model.User.findAll({
@@ -75,8 +72,10 @@ module.exports = {
         typeId: 2,
       },
     });
+
     const days = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
     res.render("admin/users/classes/addClass", {
+      content,
       user,
       message,
       days,
@@ -112,11 +111,20 @@ module.exports = {
           },
         })
       );
+       getAllDays(cls.opening,cls.closing,cls.schedule).forEach(async(e)=>{
+        await model.Teacher_calendar.create({
+          teacherId:teacher,
+          classId:cls.id.toString(),
+          scheduleDate:e
+        })
+      })
+      
     }
 
     res.redirect("/admin/addClass");
   },
   addStudentInClass: async (req, res) => {
+    const content = "Thêm học viên vào lớp học"
     const user = req.user;
     const message = req.flash("message");
     const students = await model.User.findAll({
@@ -126,6 +134,7 @@ module.exports = {
       include: model.Student_class,
     });
     res.render("admin/users/classes/addStudentInClass", {
+      content,
       user,
       message,
       students,
@@ -156,6 +165,7 @@ module.exports = {
     res.redirect(`/admin/class/addStudent/${id}`);
   },
   deleteStudentInClass: async (req, res) => {
+    const content = "Xóa học viên khỏi lớp học"
     const { id } = req.params;
     const user = req.user;
     const message = req.flash("message");
@@ -165,7 +175,7 @@ module.exports = {
       },
       include: model.Student_class,
     });
-    res.render("admin/users/classes/deleteStudentInClass", {
+    res.render("admin/users/classes/deleteStudentInClass", {content,
       user,
       message,
       students,
@@ -202,6 +212,7 @@ module.exports = {
     res.redirect(`/admin/class/deleteStudent/${id}`);
   },
   addTeacherInClass: async (req, res) => {
+    const content = "Thêm giảng viên vào lớp học"
     const user = req.user;
     const message = req.flash("message");
     const { id } = req.params;
@@ -213,6 +224,7 @@ module.exports = {
     });
 
     res.render("admin/users/classes/addTeacherInClass", {
+      content,
       user,
       message,
       teachers,
@@ -220,6 +232,7 @@ module.exports = {
     });
   },
   deleteTeacherInClass: async (req, res) => {
+    const content = "Xóa giảng viên khỏi lớp học"
     const { id } = req.params;
     const user = req.user;
     const message = req.flash("message");
@@ -230,6 +243,7 @@ module.exports = {
       include: model.Classes,
     });
     res.render("admin/users/classes/deleteTeacherInClass", {
+      content,
       user,
       message,
       teachers,

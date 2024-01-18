@@ -5,10 +5,12 @@ const bcrypt = require("bcrypt");
 module.exports = {
   index: async (req, res) => {
     const user = req.user;
-    res.render("admin/dashboard/index", { user });
+    const content = "Trang chủ"
+    res.render("admin/dashboard/index", { user,content });
   },
   infor: async (req, res) => {
-    const message = req.flash("message");
+    const content = "Thông tin cá nhân"
+    const message = req.flash("error");
     const user = req.user;
     const providerFb = await model.User_social.findOne({
       where: {
@@ -27,7 +29,9 @@ module.exports = {
         [Op.and]: [{ userId: user.id }, { provider: "github" }],
       },
     });
+    console.log(message)
     res.render("admin/users/index", {
+      content,
       message,
       user,
       providerFb,
@@ -45,6 +49,7 @@ module.exports = {
     res.redirect("/admin/infor");
   },
   user: async (req, res) => {
+    const content = "Quản lý User"
     const { keyword, page = 1, limit = 3 } = req.query;
     const filters = [];
     if (keyword) {
@@ -81,6 +86,7 @@ module.exports = {
     const user = req.user;
 
     res.render("admin/dashboard/user", {
+      content,
       message,
       user,
       req,
@@ -91,9 +97,10 @@ module.exports = {
   },
 
   changePass: async (req, res) => {
+    const content = "Đổi mật khẩu"
     const message = req.flash("message");
     const user = req.user;
-    res.render("admin/dashboard/changePass", { user, message });
+    res.render("admin/dashboard/changePass", { user, message, content });
   },
   handleChangePass: async (req, res) => {
     const user = req.user;

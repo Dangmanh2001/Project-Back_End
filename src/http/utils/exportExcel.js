@@ -1,3 +1,8 @@
+const os = require("os")
+const XLSX = require("xlsx");
+const fs = require("fs");
+const path = require("path");
+
 module.exports = (dataSample, nameFile) => {
   const workbook = XLSX.utils.book_new();
 

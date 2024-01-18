@@ -1,14 +1,11 @@
 const model = require("../../../models/index");
 const { Op } = require("sequelize");
-const XLSX = require("xlsx");
-const fs = require("fs");
-const path = require("path");
-const os = require("os");
 const exportExcel = require("../../utils/exportExcel");
 let data = null;
 
 module.exports = {
   course: async (req, res) => {
+    const content = "Quản lý khóa học"
     const { keyword, page = 1, limit = 3 } = req.query;
     const filters = [];
     if (keyword) {
@@ -40,6 +37,7 @@ module.exports = {
     const user = req.user;
 
     res.render("admin/dashboard/course", {
+      content,
       user,
       message,
       req,
@@ -64,6 +62,7 @@ module.exports = {
     res.redirect("/admin/courses");
   },
   addCourse: async (req, res) => {
+    const content = "Thêm khóa học"
     const user = req.user;
     const message = req.flash("message");
     const teacher = await model.User.findAll({
@@ -71,7 +70,7 @@ module.exports = {
         typeId: 2,
       },
     });
-    res.render("admin/users/courses/addCourse", { user, message, teacher });
+    res.render("admin/users/courses/addCourse", { user, message, teacher,content });
   },
   handleAddCourse: async (req, res) => {
     const { name, price, teacher, number_of_trial, number_of_student } =
@@ -95,6 +94,7 @@ module.exports = {
     res.redirect("/admin/addCourse");
   },
   editCourse: async (req, res) => {
+    const content = "Sửa khóa học"
     const user = req.user;
     const message = req.flash("message");
     const teacher = await model.User.findAll({
@@ -103,7 +103,7 @@ module.exports = {
       },
     });
 
-    res.render("admin/users/courses/editCourse", { user, message, teacher });
+    res.render("admin/users/courses/editCourse", { user, message, teacher,content });
   },
   handleEditCourse: async (req, res) => {
     const { name, price, teacher, number_of_trial, number_of_student } =

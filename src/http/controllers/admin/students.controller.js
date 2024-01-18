@@ -1,15 +1,12 @@
 const model = require("../../../models/index");
 const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
-const XLSX = require("xlsx");
-const fs = require("fs");
-const path = require("path");
-const os = require("os");
 const exportExcel = require("../../utils/exportExcel");
 let data = null;
 
 module.exports = {
   student: async (req, res) => {
+    const content = "Quản lý học viên"
     const { keyword, page = 1, limit = 3 } = req.query;
     const filters = [];
     if (keyword) {
@@ -45,6 +42,7 @@ module.exports = {
     const user = req.user;
 
     res.render("admin/dashboard/student", {
+      content,
       message,
       user,
       req,
@@ -62,10 +60,11 @@ module.exports = {
     res.redirect("/admin/teachers");
   },
   addStudent: async (req, res) => {
+    const content = "Thêm học viên"
     const user = req.user;
 
     const message = req.flash("message");
-    res.render("admin/users/students/addStudent", { user, message });
+    res.render("admin/users/students/addStudent", { user, message,content });
   },
   handleAddStudent: async (req, res) => {
     const { name, email, password } = req.body;
@@ -78,10 +77,11 @@ module.exports = {
     res.redirect("/admin/addStudent");
   },
   editStudent: async (req, res) => {
+    const content = "Sửa học viên"
     const user = req.user;
     const message = req.flash("message");
 
-    res.render("admin/users/students/editStudent", { user, message });
+    res.render("admin/users/students/editStudent", { user, message,content });
   },
 
   handleEditStudent: async (req, res) => {

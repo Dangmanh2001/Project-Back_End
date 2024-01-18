@@ -1,0 +1,26 @@
+
+
+
+
+
+  <!-- Container để hiển thị lịch -->
+
+              <!-- THE CALENDAR -->
+              <div id="calendar"></div>
+
+<!-- /.content-wrapper -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+
+<script>
+  const events = '<%- JSON.stringify(events) %>';
+  const decodeEvents = JSON.parse(events)
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      events: decodeEvents
+    });
+    calendar.render();
+  });
+</script>

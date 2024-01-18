@@ -3,13 +3,15 @@ const model = require("../../models/index");
 module.exports = async (req, res, next) => {
   const user = req.user;
 
-  if (!user.first_login) {
-    if (user.typeId === 2) {
+  if (!user?.first_login) {
+    if (user?.typeId === 2) {
       res.redirect("/teacher/changePass");
-    } else if (user.typeId === 3) {
+    } else if (user?.typeId === 3) {
       res.redirect("/student/changePass");
-    } else if (user.typeId === 1) {
+    } else if (user?.typeId === 1) {
       res.redirect("/admin/changePass");
+    }else{
+      next()
     }
     return
   }
@@ -35,11 +37,12 @@ module.exports = async (req, res, next) => {
         break;}
         return
   }
-  if (user.typeId === 2) {
+  
+  if (user?.typeId === 2) {
     res.redirect("/teacher");
-  } else if (user.typeId === 3) {
+  } else if (user?.typeId === 3) {
     res.redirect("/student");
-  } else if (user.typeId === 1) {
+  } else if (user?.typeId === 1) {
     res.redirect("/admin");
   }
 

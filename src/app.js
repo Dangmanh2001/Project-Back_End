@@ -23,9 +23,10 @@ const authRouter = require("./routes/auth/index");
 const loginTokenMiddleware = require("./http/middlewares/login.token.middleware");
 const redirectMiddleware = require("./http/middlewares/redirect.middleware");
 const type = require("./utils/type");
-const guestMiddleware = require("./http/middlewares/guest.middleware");
 const verifyMiddleware = require("./http/middlewares/verify.middleware");
 const checkUserRoleMiddleware = require("./http/middlewares/checkUserRole.middleware");
+const checkVerifyMiddleware = require("./http/middlewares/checkVerify.middleware");
+
 
 var app = express();
 
@@ -77,7 +78,7 @@ app.use(authMiddleware);
 app.use(loginTokenMiddleware);
 app.use(type);
 
-app.use("/verification",verifyRouter)
+app.use("/verification",checkVerifyMiddleware,verifyRouter)
 app.use(verifyMiddleware)
 
 app.use("/redirect", redirectMiddleware);

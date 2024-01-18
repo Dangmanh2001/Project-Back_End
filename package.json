@@ -6,6 +6,10 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.10",
+    "@fullcalendar/daygrid": "^6.1.10",
+    "@fullcalendar/list": "^6.1.10",
+    "@fullcalendar/timegrid": "^6.1.10",
     "bcrypt": "^5.1.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
@@ -16,8 +20,10 @@
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.17.3",
     "express-validator": "^7.0.1",
+    "fullcalendar": "^6.1.10",
     "http-errors": "~1.6.3",
     "jsconfig.json": "^2.3.3",
+    "moment": "^2.30.1",
     "morgan": "~1.9.1",
     "mysql2": "^3.6.5",
     "nodemailer": "^6.9.7",

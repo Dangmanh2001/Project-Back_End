@@ -35,6 +35,7 @@ module.exports = new GoogleStrategy(
       req.session.verify = "done";
       return done(null, user);
     }
+    req.session.status="1"
     const providerLink = await User_social.findOne({
       where: {
         [Op.and]: [{ providerId: id }, { provider: provider }],
@@ -48,10 +49,10 @@ module.exports = new GoogleStrategy(
         providerId: id,
       });
       req.session.verify = "done";
-      req.session.status = "1"
+      
       return done(null, req.user);
     }
-
+    req.session.status = "1"
     return done(null, false, {
       message: "Tài khoản này đã được liên kết",
     });

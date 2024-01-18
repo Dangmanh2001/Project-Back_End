@@ -7,7 +7,7 @@ module.exports = {
     const message = req.flash("message");
     const user = req.user;
 
-    res.render("auth/verifi", { message, user });
+    res.render("auth/verify", { message, user });
   },
   handleVerify: async (req, res) => {
     const { otp } = req.body;

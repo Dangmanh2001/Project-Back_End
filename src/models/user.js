@@ -15,7 +15,9 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.User_social);
       User.hasOne(models.User_otp);
       User.hasOne(models.User_column);
-      User.hasMany(models.Teacher_calendar);
+      User.hasMany(models.Teacher_calendar,{
+        foreignKey:"teacherId"
+      });
       User.hasMany(models.Submid_exercises);
       User.hasOne(models.Student_class, {
         foreignKey: "studentId",

@@ -15,6 +15,7 @@ const editAdminMiddleware = require("../../http/middlewares/Validate/admins/edit
 const addStudentMiddleware = require("../../http/middlewares/Validate/students/addStudent.middleware");
 const editStudentMiddleware = require("../../http/middlewares/Validate/students/editStudent.middleware");
 const editCoursesMiddleware = require("../../http/middlewares/Validate/courses/editCourses.middleware");
+const calendarController = require("../../http/controllers/admin/calendar.controller");
 
 /* GET home page. */
 router.get("/", dashboardController.index);
@@ -98,5 +99,8 @@ router.post(
 );
 router.get("/class/addTeacher/:id", classController.addTeacherInClass);
 router.get("/class/deleteTeacher/:id", classController.deleteTeacherInClass);
+
+//Calendar
+router.get("/calendar",calendarController.calendar)
 
 module.exports = router;

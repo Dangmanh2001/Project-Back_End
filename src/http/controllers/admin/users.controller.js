@@ -2,17 +2,12 @@ const model = require("../../../models/index");
 const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
 var randomstring = require("randomstring");
-const nodemailer = require("nodemailer");
-const paginate = require("sequelize-paginate");
-const XLSX = require("xlsx");
-const fs = require("fs");
-const path = require("path");
-const os = require("os");
 const sendMail = require("../../utils/sendMail");
 const exportExcel = require("../../utils/exportExcel");
 let data = null;
 module.exports = {
   user: async (req, res) => {
+    const content = "Quản lý Admin"
     const { keyword, page = 1, limit = 3 } = req.query;
     const filters = [];
     if (keyword) {
@@ -49,6 +44,7 @@ module.exports = {
     const user = req.user;
 
     res.render("admin/dashboard/user", {
+      content,
       message,
       user,
       req,
@@ -71,11 +67,12 @@ module.exports = {
     res.redirect("/admin/users");
   },
   addAdmin: async (req, res) => {
+    const content = "Thêm Admin"
     const user = req.user;
 
     const message = req.flash("message");
 
-    res.render("admin/users/admins/addAdmin", { user, message });
+    res.render("admin/users/admins/addAdmin", { user, message ,content});
   },
   handleAddAdmin: async (req, res) => {
     const { name, email } = req.body;
@@ -96,10 +93,11 @@ module.exports = {
   },
 
   editAdmin: async (req, res) => {
+    const content = "Sửa Admin"
     const user = req.user;
     const message = req.flash("message");
 
-    res.render("admin/users/admins/editAdmin", { user, message });
+    res.render("admin/users/admins/editAdmin", { user, message, content });
   },
 
   handleEditAdmin: async (req, res) => {
