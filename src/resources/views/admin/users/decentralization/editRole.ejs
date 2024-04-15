@@ -1,0 +1,174 @@
+<% if (message?.length) { %>
+    <div class="alert alert-danger"><%= message %></div>
+    <% } %>
+    <% if (success?.length) { %>
+      <div class="alert alert-success"><%= success %></div>
+      <% } %>
+    <form action="" method="post">
+        <div class="mb-3">
+            <label for="">Tên</label>
+            <input type="text" name="name" placeholder="Tên..." class="form-control" />
+            <span class="text-danger"></span>
+        </div>
+      <div class="mb-3">
+        <label for="">User</label>
+        <select name="user" class="form-control">
+          <% users.forEach(e => {%>
+    
+          <option value="<%= e.id%>"><%= e.name%></option>
+    
+          <% }); %>
+        </select>
+        <span class="text-danger"></span>
+      </div>
+      <div>
+        <label for="">Quyền</label>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    
+                    <th>Tên Quyền</th>
+                    <th>Cho Phép</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Phân Quyền</td>
+                    <td class="checkbox">
+                        <input type="checkbox" name="permission1" id="permission1">
+                        <label for="permission1"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Xem danh sách người dùng</td>
+                    <td class="checkbox">
+                        <input type="checkbox" name="permission2" id="permission2">
+                        <label for="permission2"></label>
+                    </td>
+                </tr>
+                <tr>
+                    
+                    <td>Sửa danh sách người dùng</td>
+                    <td class="checkbox"><input type="checkbox" name="permission3" id="permission3">
+                    <label for="permission3"></label></td>
+                </tr>
+                <tr>
+                    
+                    <td>Xóa danh sách người dùng</td>
+                    <td class="checkbox"><input type="checkbox" name="permission4" id="permission4">
+                    <label for="permission4"></label></td>
+                </tr>
+                <tr>
+                    
+                    <td>Xem danh sách giảng viên/trợ giảng</td>
+                    <td class="checkbox"><input type="checkbox" name="permission5" id="permission5">
+                    <label for="permission5"></label></td>
+                </tr>
+                <tr>
+                    
+                    <td>Sửa danh sách giảng viên/trợ giảng</td>
+                    <td class="checkbox"><input type="checkbox" name="permission6" id="permission6">
+                    <label for="permission6"></label></td>
+                </tr>
+                <tr>
+                    
+                    <td>Xóa danh sách giảng viên/trợ giảng</td>
+                    <td class="checkbox"><input type="checkbox" name="permission7" id="permission7">
+                    <label for="permission7"></label></td>
+                </tr>
+                <tr>
+                    
+                    <td>Xem danh sách học viên</td>
+                    <td class="checkbox"><input type="checkbox" name="permission8" id="permission8">
+                    <label for="permission8"></label></td>
+                </tr>
+                <tr>
+                    
+                    <td>Sửa danh sách học viên</td>
+                    <td class="checkbox"><input type="checkbox" name="permission9" id="permission9">
+                    <label for="permission9"></label></td>
+                </tr>
+                <tr>
+                    
+                    <td>Xóa danh sách học viên</td>
+                    <td class="checkbox"><input type="checkbox" name="permission10" id="permission10">
+                    <label for="permission10"></label></td>
+                </tr>
+                <tr>
+                    
+                    <td>Xem danh sách khóa học</td>
+                    <td class="checkbox"><input type="checkbox" name="permission11" id="permission11">
+                    <label for="permission11"></label></td>
+                </tr>
+                <tr>
+                    
+                    <td>Sửa danh sách khóa học</td>
+                    <td class="checkbox"><input type="checkbox" name="permission12" id="permission12">
+                    <label for="permission12"></label></td>
+                </tr>
+                <tr>
+                    
+                    <td>Xóa danh sách khóa học</td>
+                    <td class="checkbox"><input type="checkbox" name="permission13" id="permission13">
+                    <label for="permission13"></label></td>
+                </tr>
+                <tr>
+                    
+                    <td>Xem danh sách lớp học</td>
+                    <td class="checkbox"><input type="checkbox" name="permission14" id="permission14">
+                    <label for="permission14"></label></td>
+                </tr>
+                <tr>
+                    
+                    <td>Sửa danh sách lớp học</td>
+                    <td class="checkbox"><input type="checkbox" name="permission15" id="permission15">
+                    <label for="permission15"></label></td>
+                </tr>
+                <tr>
+                    
+                    <td>Xóa danh sách lớp học</td>
+                    <td class="checkbox"><input type="checkbox" name="permission16" id="permission16">
+                    <label for="permission16"></label></td>
+                </tr>
+                
+                <!-- Thêm các hàng khác tương tự -->
+            </tbody>
+        </table>
+      </div>
+      
+      
+    
+      <button class="btn btn-success">Lưu</button>
+      <a href="/admin" class="btn btn-danger">Hủy</a>
+    </form>
+    <style>
+
+        .checkbox input[type="checkbox"] {
+            display: none;
+        }
+        .checkbox label {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            cursor: pointer;
+        }
+        .checkbox label:before {
+            content: "";
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 25px;
+            height: 25px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 3px;
+        }
+        .checkbox input[type="checkbox"]:checked + label:before {
+            content: "\2713"; /* Unicode character for checkmark */
+            font-size: 20px;
+            color: #007bff;
+            line-height: 25px;
+            text-align: center;
+        }
+    </style>

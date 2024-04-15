@@ -20,21 +20,23 @@ module.exports = (sequelize, DataTypes) => {
       });
       User.hasMany(models.Submid_exercises);
       User.hasOne(models.Student_class, {
-        foreignKey: "studentId",
+        foreignKey: "studentId"
       });
       User.hasMany(models.Student_attendance);
-      User.hasOne(models.Login_token);
+      User.hasOne(models.Login_token,{
+        foreignKey: 'userId'
+      });
       User.hasOne(models.Information_persional);
       User.hasMany(models.Course, {
-        foreignKey: "teacherId",
+        foreignKey: "teacherId"
       });
       User.hasMany(models.Comment);
       User.belongsToMany(models.Role, {
         through: "user_role",
-        foreignKey: "userId",
+        foreignKey: "userId"
       });
       User.belongsTo(models.Type, {
-        foreignKey: "typeId",
+        foreignKey: "typeId"
       });
     }
   }
@@ -49,6 +51,8 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
       typeId: DataTypes.INTEGER,
+      address: DataTypes.STRING,
+      phoneNumber: DataTypes.STRING,
       first_login: DataTypes.BOOLEAN,
     },
     {

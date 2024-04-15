@@ -39,5 +39,6 @@ module.exports = async (req, res, next) => {
     res.redirect("/admin/addStudent");
     return;
   }
+  req.flash("success", "Thêm học viên thành công");
   next();
 };

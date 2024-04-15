@@ -12,6 +12,9 @@ module.exports = (req, res, next) => {
 
         res.redirect("/student");
         break;
+        case 4:
+        res.redirect("/teacher");
+        break;
       default:
         res.redirect("/auth/login");
     }

@@ -1,0 +1,113 @@
+<div class="mb-2">
+    <a href="/admin/addRole" class="btn btn-primary mb-2">Thêm mới</a>
+    <form action="">
+    <div class="row">
+      <div class="col-10">
+        <input
+          type="text"
+          name="keyword"
+          class="form-control"
+          placeholder="Nhập từ khóa cần tìm..."
+          value="<%= req.query.keyword %>"
+        />
+      </div>
+      <div class="col-2">
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+      </div>
+    </div>
+  </form>
+  </div>
+  <div>
+
+    <% if (success?.length) { %>
+      <div class="alert alert-success"><%= success %></div>
+      <% } %>
+  <table class="table table-bordered">
+    <tr>
+      <th>STT</th>
+      <th>Name</th>
+
+
+      <th>Sửa</th>
+      <th>Xóa</th>
+    </tr>
+    <% roles?.forEach((e,index) => { %>
+    <tr>
+      <td><%=index+1 %></td>
+      <td><%= e.name %></td>
+
+
+      <td>
+        <a
+          href="/admin/editRole/<%=e.id  %>"
+          type="button"
+          class="btn btn-warning"
+          ><i class="fas fa-edit"></i></a
+        >
+      </td>
+      <td>
+        <button type="button" class="btn btn-danger btn-delete" onclick="confirmDelete('<%=e.id%>')">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </td>
+    </tr>
+    <% }); %>
+  </table>
+  
+  <div class="pagination">
+    <% if (currentPage > 1) { %>
+      <a href="/admin/decentralization?page=1" class="<%= 1 === currentPage ? 'active' : '' %>">Đầu trang</a>
+      <a href="/admin/decentralization?page=<%= currentPage - 1 %>" class="prev">Trang Trước</a>
+    <% } %>
+    
+    <% for (let i = 1; i <= pageCount; i++) { %>
+      <a href="/admin/decentralization?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>">
+        <%= i %>
+      </a>
+    <% } %>
+  
+    <% if (currentPage < pageCount) { %>
+      <a href="/admin/decentralization?page=<%= currentPage + 1 %>" class="next">Trang Sau</a>
+      <a href="/admin/decentralization?page=<%= pageCount %>" class="<%= pageCount === currentPage ? 'active' : '' %>">Cuối trang</a>
+    <% } %>
+  </div>
+  
+  
+  <style>
+    .btn-delete {
+      transition: opacity 0.3s ease;
+    }
+  
+    .btn-delete:hover {
+      opacity: 0.8; /* Giảm độ mờ khi di chuột qua */
+    }
+    .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .pagination a {
+    color: #007bff;
+    padding: 8px 12px;
+    margin: 0 5px;
+    text-decoration: none;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+  }
+  
+  .pagination a.active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  </style>
+  <script>
+    function confirmDelete(studentId) {
+      if (confirm("Bạn có chắc chắn muốn xóa giảng viên này không?")) {
+        // Nếu người dùng chấp nhận xóa, thực hiện hành động xóa tại đây
+        window.location.href = `/admin/deleteStudent/${studentId}`;
+      }
+    }
+  </script>

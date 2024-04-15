@@ -28,6 +28,12 @@ module.exports = {
           key: "id",
         },
       },
+      address:{
+        type: Sequelize.STRING(100)
+      },
+      phoneNumber:{
+        type: Sequelize.STRING(50)
+      },
       first_login: {
         type: Sequelize.BOOLEAN,
         defaultValue: 0,

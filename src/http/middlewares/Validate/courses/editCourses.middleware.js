@@ -1,6 +1,8 @@
+const model = require("../../../../models/index")
 module.exports = async (req, res, next) => {
   const { name, price, teacher, number_of_trial, number_of_student } = req.body;
   const { id } = req.params;
+  const course = await model.Course.findOne({where:{name}})
   if (!name && !price && !teacher && !number_of_trial && !number_of_student) {
     req.flash("message", "Vui lòng nhập đầy đủ thông tin");
     res.redirect(`/admin/editCourse/${id}`);
@@ -9,7 +11,6 @@ module.exports = async (req, res, next) => {
   function countTruthyValues(...args) {
     return args.filter(Boolean).length;
   }
-
   if (
     countTruthyValues(
       name,
@@ -25,6 +26,11 @@ module.exports = async (req, res, next) => {
   }
   if (!name) {
     req.flash("message", "Vui lòng nhập tên");
+    res.redirect(`/admin/editCourse/${id}`);
+    return;
+  }
+  if (course&&course.id!==+id){
+    req.flash("message", "Khóa học đã tồn tại");
     res.redirect(`/admin/editCourse/${id}`);
     return;
   }
@@ -48,5 +54,6 @@ module.exports = async (req, res, next) => {
     res.redirect(`/admin/editCourse/${id}`);
     return;
   }
+  req.flash("success", "Sửa khóa học thành công");
   next();
 };

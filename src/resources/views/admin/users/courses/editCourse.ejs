@@ -1,10 +1,13 @@
 <% if (message?.length) { %>
 <div class="alert alert-danger"><%= message %></div>
 <% } %>
+<% if (success?.length) { %>
+  <div class="alert alert-success"><%= success %></div>
+  <% } %>
 <form action="" method="post">
   <div class="mb-3">
     <label for="">Tên</label>
-    <input type="text" name="name" placeholder="Tên..." class="form-control" />
+    <input type="text" name="name" value="<%= course.name %>" class="form-control" />
     <span class="text-danger"></span>
   </div>
   <div class="mb-3">
@@ -13,7 +16,7 @@
       id="price"
       type="text"
       name="price"
-      placeholder="Giá..."
+      value="<%= course.price %>"
       onkeypress="return isNumber(event)"
       class="form-control"
     />
@@ -35,7 +38,7 @@
     <input
       type="text"
       name="number_of_trial"
-      placeholder="Số lần học thử..."
+      value="<%= course.number_of_trial %>"
       onkeypress="return isNumber(event)"
       class="form-control"
     />
@@ -46,7 +49,7 @@
     <input
       type="text"
       name="number_of_student"
-      placeholder="Sĩ số..."
+      value="<%= course.number_of_student %>"
       onkeypress="return isNumber(event)"
       class="form-control"
     />

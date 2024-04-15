@@ -83,9 +83,10 @@ app.use(verifyMiddleware)
 
 app.use("/redirect", redirectMiddleware);
 
-app.use("/student",checkUserRoleMiddleware(3), studentsRouter);
-app.use("/teacher",checkUserRoleMiddleware(2), teachersRouter);
-app.use("/admin",checkUserRoleMiddleware(1), adminRouter);
+app.use("/student",checkUserRoleMiddleware([3]), studentsRouter);
+app.use("/teacher",checkUserRoleMiddleware([2,4]), teachersRouter);
+app.use("/admin",checkUserRoleMiddleware([1]), adminRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

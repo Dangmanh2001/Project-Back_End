@@ -1,6 +1,7 @@
-module.exports = (requiredTypeId)=> {
+module.exports = (requiredTypeIds)=> {
     return function (req, res, next) {
-        if (req.user.typeId !== requiredTypeId) {
+        const userTypeId = req.user.typeId;
+        if (![ 2, 4].includes(userTypeId) && !requiredTypeIds.includes(userTypeId)) {
             res.redirect("/redirect");
             return;
         }

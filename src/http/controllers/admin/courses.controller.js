@@ -34,9 +34,11 @@ module.exports = {
     const pageCount = Math.ceil(count / limit);
 
     const message = req.flash("message");
+    const success = req.flash("success");
     const user = req.user;
 
     res.render("admin/dashboard/course", {
+      success,
       content,
       user,
       message,
@@ -62,6 +64,7 @@ module.exports = {
     res.redirect("/admin/courses");
   },
   addCourse: async (req, res) => {
+    const success = req.flash("success");
     const content = "Thêm khóa học"
     const user = req.user;
     const message = req.flash("message");
@@ -70,7 +73,7 @@ module.exports = {
         typeId: 2,
       },
     });
-    res.render("admin/users/courses/addCourse", { user, message, teacher,content });
+    res.render("admin/users/courses/addCourse", { user, message, teacher,content,success });
   },
   handleAddCourse: async (req, res) => {
     const { name, price, teacher, number_of_trial, number_of_student } =
@@ -89,21 +92,24 @@ module.exports = {
         number_of_student,
       });
     }
-    req.flash("message", "Khóa học đã tồn tại");
+    
 
     res.redirect("/admin/addCourse");
   },
   editCourse: async (req, res) => {
+    const success = req.flash("success");
     const content = "Sửa khóa học"
     const user = req.user;
     const message = req.flash("message");
+    const { id } = req.params;
+    const course = await model.Course.findOne({where:{id}})
     const teacher = await model.User.findAll({
       where: {
         typeId: 2,
       },
     });
 
-    res.render("admin/users/courses/editCourse", { user, message, teacher,content });
+    res.render("admin/users/courses/editCourse", { user, message, teacher,content,course,success });
   },
   handleEditCourse: async (req, res) => {
     const { name, price, teacher, number_of_trial, number_of_student } =
@@ -116,4 +122,11 @@ module.exports = {
     );
     res.redirect(`/admin/editCourse/${id}`);
   },
+  deleteCourse:async(req,res)=>{
+    const {id}=req.params
+    
+    await model.Course.destroy({where:{id}})
+    req.flash("success","Xóa thành công")
+    res.redirect("/admin/courses")
+  }
 };

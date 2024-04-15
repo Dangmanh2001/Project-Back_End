@@ -15,11 +15,15 @@ const editAdminMiddleware = require("../../http/middlewares/Validate/admins/edit
 const addStudentMiddleware = require("../../http/middlewares/Validate/students/addStudent.middleware");
 const editStudentMiddleware = require("../../http/middlewares/Validate/students/editStudent.middleware");
 const editCoursesMiddleware = require("../../http/middlewares/Validate/courses/editCourses.middleware");
-const calendarController = require("../../http/controllers/admin/calendar.controller");
+const editClassMiddleware = require("../../http/middlewares/Validate/classes/editClass.middleware");
+const chartController = require("../../http/controllers/chart/chart.controller");
+const  decentralizationController  = require("../../http/controllers/admin/decentralization.controller");
+
 
 /* GET home page. */
 router.get("/", dashboardController.index);
 router.get("/infor", dashboardController.infor);
+router.post("/infor",dashboardController.handleInfor)
 router.get("/changePass", dashboardController.changePass);
 router.post("/changePass", dashboardController.handleChangePass);
 router.get("/delete/:provider", dashboardController.deleteLink);
@@ -36,11 +40,13 @@ router.post(
   editAdminMiddleware,
   adminController.handleEditAdmin
 );
+router.get("/deleteAdmin/:id",adminController.deleteAdmin)
 
 //CRUD Teacher
 router.get("/teachers", teacherController.teacher);
 router.get("/teachers/exportExcel", teacherController.exportExcelTeacher);
 router.get("/addTeacher", teacherController.addTeacher);
+router.get("/teachers/calendar/:id",teacherController.calendar)
 router.post(
   "/addTeacher",
   addTeacherMiddleware,
@@ -52,7 +58,7 @@ router.post(
   editTeacherMiddleware,
   teacherController.handleEditTeacher
 );
-
+router.get("/deleteTeacher/:id",teacherController.deleteTeacher)
 //CRUD Student
 router.get("/students", studentController.student);
 router.get("/students/exportExcel", studentController.exportExcelStudent);
@@ -68,6 +74,7 @@ router.post(
   editStudentMiddleware,
   studentController.handleEditStudent
 );
+router.get("/deleteStudent/:id",studentController.deleteStudent)
 
 //CRUD Course
 router.get("/courses", courseController.course);
@@ -84,6 +91,7 @@ router.post(
   editCoursesMiddleware,
   courseController.handleEditCourse
 );
+router.get("/deleteCourse/:id",courseController.deleteCourse)
 
 //CRUD Class
 router.get("/classes", classController.class);
@@ -92,15 +100,25 @@ router.get("/addClass", classController.addClass);
 router.post("/addClass", addClassMiddleware, classController.handleAddClass);
 router.get("/class/addStudent/:id", classController.addStudentInClass);
 router.post("/class/addStudent/:id", classController.handleAddStudentInClass);
+router.get("/class/editClass/:id",classController.editClass)
+router.post("/class/editClass/:id",editClassMiddleware,classController.handleEditClass)
 router.get("/class/deleteStudent/:id", classController.deleteStudentInClass);
 router.post(
   "/class/deleteStudent/:id",
   classController.handleDeleteStudentInClass
 );
-router.get("/class/addTeacher/:id", classController.addTeacherInClass);
-router.get("/class/deleteTeacher/:id", classController.deleteTeacherInClass);
+router.get("/deleteClass",classController.deleteClass)
 
-//Calendar
-router.get("/calendar",calendarController.calendar)
+//Chart
+router.get("/chartStudent",chartController.student)
+router.get("/chartClass",chartController.class)
+router.get("/chartQuantity",chartController.quantity)
+
+//Decentralization
+router.get("/decentralization",decentralizationController.decentralization)
+router.get("/addRole",decentralizationController.addRole)
+router.post("/addRole",decentralizationController.handleAddRole)
+router.get("/editRole/:id",decentralizationController.editRole)
+
 
 module.exports = router;

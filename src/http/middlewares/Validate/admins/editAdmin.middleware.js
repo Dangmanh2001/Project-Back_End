@@ -2,6 +2,7 @@ const model = require("../../../../models/index");
 
 module.exports = async (req, res, next) => {
   const { email, name, password } = req.body;
+  const {id} = req.params
   const user = await model.User.findOne({ where: { email } });
 
   if (!email && !name && !password) {
@@ -30,10 +31,11 @@ module.exports = async (req, res, next) => {
     res.redirect(`/admin/editAdmin/${id}`);
     return;
   }
-  if (user) {
+  if (user&&user.id!==+id) {
     req.flash("message", "Email đã tồn tại");
     res.redirect(`/admin/editAdmin/${id}`);
     return;
   }
+  req.flash("success","Sửa admin thành công")
   next();
 };

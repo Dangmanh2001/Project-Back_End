@@ -37,5 +37,6 @@ module.exports = (req, res, next) => {
   }
 
   // Nếu tất cả điều kiện đều thoả mãn, chuyển sang middleware hoặc route tiếp theo
+  req.flash("success", "Thêm khóa học thành công");
   next();
 };

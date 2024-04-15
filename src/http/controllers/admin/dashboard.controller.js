@@ -1,16 +1,20 @@
 const model = require("../../../models/index");
 const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
+const chartUser = require("../../utils/chartStudent");
 
 module.exports = {
   index: async (req, res) => {
     const user = req.user;
     const content = "Trang chủ"
-    res.render("admin/dashboard/index", { user,content });
+    const success = req.flash("success")
+    
+    res.render("admin/dashboard/index", { user,content,success });
   },
   infor: async (req, res) => {
     const content = "Thông tin cá nhân"
     const message = req.flash("error");
+    const success = req.flash("success")
     const user = req.user;
     const providerFb = await model.User_social.findOne({
       where: {
@@ -29,8 +33,9 @@ module.exports = {
         [Op.and]: [{ userId: user.id }, { provider: "github" }],
       },
     });
-    console.log(message)
+    
     res.render("admin/users/index", {
+      success,
       content,
       message,
       user,
@@ -39,6 +44,26 @@ module.exports = {
       providerGh,
     });
   },
+  handleInfor:async(req,res)=>{
+    const user = req.user
+    const {name,phoneNumber,address}=req.body
+    if(!address){
+      req.flash("error","Vui lòng nhập địa chỉ")
+      return res.redirect("/admin/infor")
+      
+    }
+    if(!phoneNumber){
+      req.flash("error","Vui lòng nhập số điện thoại")
+      return res.redirect("/admin/infor")
+    }
+    
+    await model.User.update({name,phoneNumber,address},{
+      where:{id:user.id}
+    })
+    req.flash("success","Đổi thông tin thành công")
+    res.redirect("/admin/infor")
+  }
+  ,
   deleteLink: async (req, res) => {
     const { provider } = req.params;
     const user = req.user;
@@ -120,6 +145,7 @@ module.exports = {
         },
       }
     );
+    req.flash("success","Đổi mật khẩu thành công")
     res.redirect("/admin");
   },
 };

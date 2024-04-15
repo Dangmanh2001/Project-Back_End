@@ -8,6 +8,7 @@ let data = null;
 module.exports = {
   class: async (req, res) => {
     const content = "Quản lý lớp học"
+    const success = req.flash("success");
     const { keyword, page = 1, limit = 3 } = req.query;
     const filters = [];
     if (keyword) {
@@ -38,6 +39,7 @@ module.exports = {
     const user = req.user;
 
     res.render("admin/dashboard/class", {
+      success,
       content,
       user,
       req,
@@ -64,6 +66,7 @@ module.exports = {
     res.redirect("/admin/classes");
   },
   addClass: async (req, res) => {
+    const success = req.flash("success");
     const content = "Thêm lớp học"
     const user = req.user;
     const message = req.flash("message");
@@ -75,6 +78,7 @@ module.exports = {
 
     const days = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
     res.render("admin/users/classes/addClass", {
+      success,
       content,
       user,
       message,
@@ -123,8 +127,64 @@ module.exports = {
 
     res.redirect("/admin/addClass");
   },
+  editClass: async(req,res)=>{
+    const {id}=req.params
+    const content = "Sửa lớp học"
+    const user = req.user
+    const success = req.flash("success");
+    const message = req.flash("message")
+    const classes = await model.Classes.findOne({where:{
+      id
+    }})
+    const teachers = await model.User.findAll({
+      where: {
+        typeId: 2,
+      },
+    });
+    const days = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+    res.render("admin/users/classes/editClass",{ content,user,message,id,teachers,days,classes,success })
+  },
+  handleEditClass:async(req,res)=>{
+    const {id}=req.params
+    const {name,number_of_student,opening,closing,schedule,study_time_start,study_time_end,teacher} = req.body
+    
+    await model.Classes.update({name,number_of_student,opening,closing,schedule,study_time:study_time_start+"-"+study_time_end},{where:{
+      id
+    }})
+    const cls = await model.Classes.findOne({where:{id}})
+    
+    cls.setUsers(
+      await model.User.findOne({
+        where: {
+          id: teacher,
+        },
+      })
+    );
+    
+    getAllDays(cls.opening,cls.closing,cls.schedule).forEach(async(e)=>{
+      await model.Teacher_calendar.create({
+        teacherId:teacher,
+        classId:cls.id.toString(),
+        scheduleDate:e
+      })
+    })
+    if(teacher==="Không"){
+
+      
+
+      await model.Teacher_calendar.destroy({where:{
+        classId:id
+      }})
+      cls.removeUser(
+        await model.User.findAll()
+      )
+    }
+    
+    res.redirect(`/admin/class/editClass/${id}`)
+  },
   addStudentInClass: async (req, res) => {
     const content = "Thêm học viên vào lớp học"
+    const success = req.flash("success");
     const user = req.user;
     const message = req.flash("message");
     const students = await model.User.findAll({
@@ -134,6 +194,7 @@ module.exports = {
       include: model.Student_class,
     });
     res.render("admin/users/classes/addStudentInClass", {
+      success,
       content,
       user,
       message,
@@ -153,6 +214,7 @@ module.exports = {
 
     if (typeof studentId === "string") {
       await model.Student_class.create({ studentId, classId: id, statusId: 1 });
+      req.flash("success","Thêm học viên vào lớp học thành công")
     } else {
       studentId.forEach(async (e) => {
         await model.Student_class.create({
@@ -161,6 +223,7 @@ module.exports = {
           statusId: 1,
         });
       });
+      req.flash("success","Thêm học viên vào lớp học thành công")
     }
     res.redirect(`/admin/class/addStudent/${id}`);
   },
@@ -169,6 +232,7 @@ module.exports = {
     const { id } = req.params;
     const user = req.user;
     const message = req.flash("message");
+    const success = req.flash("success")
     const students = await model.User.findAll({
       where: {
         typeId: 3,
@@ -180,6 +244,7 @@ module.exports = {
       message,
       students,
       id,
+      success
     });
   },
   handleDeleteStudentInClass: async (req, res) => {
@@ -199,6 +264,7 @@ module.exports = {
           classId: id,
         },
       });
+      req.flash("success","Xóa học viên khỏi lớp học thành công")
     } else {
       studentId.forEach(async (e) => {
         await model.Student_class.destroy({
@@ -208,46 +274,15 @@ module.exports = {
           },
         });
       });
+      req.flash("success","Xóa học viên khỏi lớp học thành công")
     }
     res.redirect(`/admin/class/deleteStudent/${id}`);
   },
-  addTeacherInClass: async (req, res) => {
-    const content = "Thêm giảng viên vào lớp học"
-    const user = req.user;
-    const message = req.flash("message");
-    const { id } = req.params;
-    const teachers = await model.User.findAll({
-      where: {
-        typeId: 2,
-      },
-      include: model.Classes,
-    });
-
-    res.render("admin/users/classes/addTeacherInClass", {
-      content,
-      user,
-      message,
-      teachers,
-      id,
-    });
-  },
-  deleteTeacherInClass: async (req, res) => {
-    const content = "Xóa giảng viên khỏi lớp học"
-    const { id } = req.params;
-    const user = req.user;
-    const message = req.flash("message");
-    const teachers = await model.User.findAll({
-      where: {
-        typeId: 2,
-      },
-      include: model.Classes,
-    });
-    res.render("admin/users/classes/deleteTeacherInClass", {
-      content,
-      user,
-      message,
-      teachers,
-      id,
-    });
-  },
+  deleteClass:async(req,res)=>{
+    const {id}=req.params
+    
+    await model.Classes.destroy({where:{id}})
+    req.flash("success","Xóa thành công")
+    res.redirect("/admin/courses")
+  }
 };

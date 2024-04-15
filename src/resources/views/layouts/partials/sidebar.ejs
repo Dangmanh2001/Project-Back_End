@@ -33,19 +33,13 @@
       >
         <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
-        <li class="nav-item menu-open">
-          <a href="#" class="nav-link">
+        <li class="nav-item">
+          <a href="/<%= type %>" class="nav-link">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>Tổng quan</p>
           </a>
         </li>
-        <li class="nav-item menu-open">
-          <a href="/admin/calendar" class="nav-link">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
-            <p>Calendar</p>
-          </a>
-        </li>
-
+        <% if(type!=="student"){%>
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -55,6 +49,7 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
+            <% if(type!=="teacher"){%>
             <li class="nav-item">
               <a href="/admin/users" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -67,26 +62,67 @@
                 <p>Teacher</p>
               </a>
             </li>
+            <% } %>
             <li class="nav-item">
-              <a href="/admin/students" class="nav-link">
+              <a href="/<%= type %>/students" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Student</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/admin/courses" class="nav-link">
+              <a href="/<%= type %>/courses" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Khóa học</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/admin/classes" class="nav-link">
+              <a href="/<%= type %>/classes" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Lớp học</p>
               </a>
             </li>
           </ul>
         </li>
+        <% if(type!=="teacher"){%>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Chart
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/admin/chartStudent" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Student</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/chartClass" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Class</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/chartQuantity" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Quantity</p>
+              </a>
+            </li>
+           
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="/admin/decentralization" class="nav-link">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>Phân quyền</p>
+          </a>
+        </li>
+          
+        <% } %>
+        <% } %>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

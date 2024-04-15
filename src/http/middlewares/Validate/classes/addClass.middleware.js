@@ -73,5 +73,6 @@ module.exports = async (req, res, next) => {
     res.redirect("/admin/addClass");
     return;
   }
+  req.flash("success", "Thêm lớp học thành công");
   next();
 };

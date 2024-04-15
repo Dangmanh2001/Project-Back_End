@@ -28,5 +28,6 @@ module.exports = async (req, res, next) => {
     res.redirect("/admin/addAdmin");
     return;
   }
+  req.flash("success","Thêm admin thành công, vui lòng kiểm tra email để biết mật khẩu")
   next()
 };

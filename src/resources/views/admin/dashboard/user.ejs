@@ -28,7 +28,9 @@
     Import Excel
   </button></a
 >
-
+<% if (success?.length) { %>
+  <div class="alert alert-success"><%= success %></div>
+  <% } %>
 <table class="table table-bordered">
   <tr>
     <th>STT</th>
@@ -47,7 +49,7 @@
         href="/admin/editAdmin/<%=e.id  %>"
         type="button"
         class="btn btn-warning"
-        >Sửa</a
+        ><i class="fas fa-edit"></i></a
       >
     </td>
     <td>
@@ -56,7 +58,7 @@
         class="btn btn-danger btn-delete"
         onclick="confirmDelete('<%=e.id%>')"
       >
-        <i class="fas fa-trash-alt"></i> Xóa
+      <i class="fas fa-trash-alt"></i>
       </button>
     </td>
   </tr>

@@ -31,17 +31,41 @@ module.exports = {
     };
 
     const { count, rows: students } = await model.User.findAndCountAll({
+      include: [
+        {
+          model: model.Student_class,
+          
+          include: [
+            {
+              model: model.Classes,
+              // Thêm các tùy chọn hoặc thuộc tính cần thiết cho mối quan hệ Classes ở đây
+            },
+            {
+              model: model.Learning_status,
+              // Thêm các tùy chọn hoặc thuộc tính cần thiết cho mối quan hệ Learning_status ở đây
+            }
+          ],
+          
+          // Thêm các tùy chọn hoặc thuộc tính cần thiết cho mối quan hệ ở đây
+        },
+        
+      ],
       where: whereCondition,
       limit: parseInt(limit),
       offset: (page - 1) * limit,
+      raw: true,
+    nest: true,
     });
 
     const pageCount = Math.ceil(count / limit);
 
     const message = req.flash("message");
+    const success = req.flash("success");
     const user = req.user;
 
+
     res.render("admin/dashboard/student", {
+      success,
       content,
       message,
       user,
@@ -57,14 +81,15 @@ module.exports = {
       students.push({ Stt: index + 1, Name: e.name, Email: e.email });
     });
     exportExcel(students, "exported_data_students.xlsx");
-    res.redirect("/admin/teachers");
+    res.redirect("/admin/students");
   },
   addStudent: async (req, res) => {
     const content = "Thêm học viên"
+    const success = req.flash("success");
     const user = req.user;
 
     const message = req.flash("message");
-    res.render("admin/users/students/addStudent", { user, message,content });
+    res.render("admin/users/students/addStudent", { user, message,content,success });
   },
   handleAddStudent: async (req, res) => {
     const { name, email, password } = req.body;
@@ -77,21 +102,33 @@ module.exports = {
     res.redirect("/admin/addStudent");
   },
   editStudent: async (req, res) => {
+    const success = req.flash("success");
     const content = "Sửa học viên"
     const user = req.user;
     const message = req.flash("message");
+    const {id} = req.params
+    const student = await model.User.findOne({where:{id}})
 
-    res.render("admin/users/students/editStudent", { user, message,content });
+    res.render("admin/users/students/editStudent", { user, message,content,student,success });
   },
 
   handleEditStudent: async (req, res) => {
-    const { email, name, password } = req.body;
+    const { email, name, password,address,phoneNumber } = req.body;
     const { id } = req.params;
 
     console.log(id);
     const passwordHash = bcrypt.hash(password, 10);
     const hash = await passwordHash;
-    await model.User.update({ name, email, password: hash }, { where: { id } });
+    await model.User.update({ name, email, password: hash,address,phoneNumber }, { where: { id } });
     res.redirect(`/admin/editStudent/${id}`);
   },
+  deleteStudent:async(req,res)=>{
+    const {id}=req.params
+    await model.Login_token.destroy({where:{
+      userId:id
+    }})
+    await model.User.destroy({where:{id}})
+    req.flash("success","Xóa thành công")
+    res.redirect("/admin/students")
+  }
 };

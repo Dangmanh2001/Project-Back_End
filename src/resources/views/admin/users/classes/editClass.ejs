@@ -1,0 +1,90 @@
+<% if (message?.length) { %>
+    <div class="alert alert-danger"><%= message %></div>
+    <% } %>
+    <% if (success?.length) { %>
+      <div class="alert alert-success"><%= success %></div>
+      <% } %>
+    <form action="" method="post">
+      <div class="mb-3">
+        <label for="">Tên lớp học</label>
+        <input type="text" name="name" value="<%= classes.name %>" class="form-control" />
+        <span class="text-danger"></span>
+      </div>
+      <div class="mb-3">
+        <label for="">Sĩ số</label>
+        <input
+          id="number_of_student"
+          type="text"
+          name="number_of_student"
+          value="<%= classes.number_of_student %>"
+          onkeypress="return isNumber(event)"
+          class="form-control"
+        />
+        <span class="text-danger"></span>
+      </div>
+      <div class="mb-3">
+        <label for="">Ngày khai giảng</label>
+        <input type="date" id="opening" name="opening" value="<%= classes.opening.toISOString().slice(0, 10) %>" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="">Ngày bế giảng</label>
+        <input type="date" id="closing" name="closing" value="<%= classes.closing.toISOString().slice(0, 10) %>" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="">Lịch học</label>
+        <select name="schedule" class="form-control">
+          <% days.forEach((e,index) => {%>
+          <option value="<%= index+2  %>"><%=e %></option>
+          <% }); %>
+        </select>
+        <span class="text-danger"></span>
+      </div>
+      <div class="mb-3">
+        <label for="">Thời gian bắt đầu</label>
+        <input
+          id="study_time"
+          type="time"
+          name="study_time_start"
+          class="form-control"
+        />
+        <span class="text-danger"></span>
+      </div>
+      <div class="mb-3">
+        <label for="">Thời gian kết thúc</label>
+        <input
+          id="study_time"
+          type="time"
+          name="study_time_end"
+          class="form-control"
+        />
+        <span class="text-danger"></span>
+      </div>
+      <div class="mb-3">
+        <label for="">Thêm giảng viên</label>
+        <select name="teacher" class="form-control">
+          <option value="Không">Không chọn giảng viên</option>
+          <% teachers.forEach(e => {%>
+          <option value="<%= e.id  %>"><%=e.name %></option>
+          <% }); %>
+        </select>
+        <span class="text-danger"></span>
+      </div>
+     
+    
+      <button class="btn btn-success">Lưu</button>
+      <a href="/admin" class="btn btn-danger">Hủy</a>
+    </form>
+    <script>
+
+
+
+      function isNumber(evt) {
+        evt = evt ? evt : window.event;
+        var charCode = evt.which ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+          return false;
+        }
+        return true;
+      }
+    </script>
+    

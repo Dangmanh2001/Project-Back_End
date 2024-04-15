@@ -26,7 +26,9 @@
 <button type="button" onclick="importExcel()" class="btn btn-info">
   Import Excel
 </button>
-
+<% if (success?.length) { %>
+  <div class="alert alert-success"><%= success %></div>
+  <% } %>
 <table class="table table-bordered">
   <tr>
     <th>STT</th>
@@ -38,8 +40,6 @@
     <th>Thời gian một buổi học</th>
     <th>Thêm học viên</th>
     <th>Xóa học viên</th>
-    <th>Thêm giảng viên</th>
-    <th>Xóa giảng viên</th>
     <th>Sửa</th>
     <th>Xóa</th>
   </tr>
@@ -70,26 +70,10 @@
     </td>
     <td>
       <a
-        href="/admin/class/addTeacher/<%=e.id  %>"
-        type="button"
-        class="btn btn-success"
-        >Thêm giảng viên</a
-      >
-    </td>
-    <td>
-      <a
-        href="/admin/class/deleteTeacher/<%=e.id  %>"
-        type="button"
-        class="btn btn-danger"
-        >Xóa giảng viên</a
-      >
-    </td>
-    <td>
-      <a
-        href="/admin/editCourse/<%=e.id  %>"
+        href="/admin/class/editClass/<%=e.id  %>"
         type="button"
         class="btn btn-warning"
-        >Sửa</a
+        ><i class="fas fa-edit"></i></a
       >
     </td>
     <td>
@@ -98,7 +82,7 @@
         class="btn btn-danger btn-delete"
         onclick="confirmDelete('<%=e.id %>')"
       >
-        <i class="fas fa-trash-alt"></i> Xóa
+      <i class="fas fa-trash-alt"></i>
       </button>
     </td>
   </tr>

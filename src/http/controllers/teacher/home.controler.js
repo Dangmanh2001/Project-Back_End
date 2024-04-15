@@ -5,12 +5,14 @@ const bcrypt = require("bcrypt");
 module.exports = {
   index: async (req, res) => {
     const user = req.user;
-    const message = req.flash("message");
-    console.log(message);
-    res.render("teacher/home/index", { user, type, message });
+    const content = "Trang chủ"
+    const success = req.flash("success")
+    res.render("teacher/home/index", { user, type ,content,success});
   },
   infor: async (req, res) => {
-    const message = req.flash("message");
+    const content = "Thông tin cá nhân"
+    const message = req.flash("error");
+    const success = req.flash("success")
     const user = req.user;
     const providerFb = await model.User_social.findOne({
       where: {
@@ -30,13 +32,34 @@ module.exports = {
       },
     });
     res.render("teacher/products/index", {
+      success,
       message,
       user,
       type,
       providerFb,
       providerGg,
       providerGh,
+      content
     });
+  },
+  handleInfor:async(req,res)=>{
+    const user = req.user
+    const {name,phoneNumber,address}=req.body
+    if(!address){
+      req.flash("error","Vui lòng nhập địa chỉ")
+      return res.redirect("/admin/infor")
+      
+    }
+    if(!phoneNumber){
+      req.flash("error","Vui lòng nhập số điện thoại")
+      return res.redirect("/admin/infor")
+    }
+    
+    await model.User.update({name,phoneNumber,address},{
+      where:{id:user.id}
+    })
+    req.flash("success","Đổi thông tin thành công")
+    res.redirect("/teacher/infor")
   },
   deleteLink: async (req, res) => {
     const { provider } = req.params;
@@ -48,9 +71,10 @@ module.exports = {
     res.redirect("/teacher/infor");
   },
   changePass: async (req, res) => {
+    const content = "Đổi mật khẩu"
     const message = req.flash("message");
     const user = req.user;
-    res.render("teacher/home/changePass", { user, message });
+    res.render("teacher/home/changePass", { user, message,content });
   },
   handleChangePass: async (req, res) => {
     const user = req.user;
@@ -70,6 +94,7 @@ module.exports = {
         },
       }
     );
+    req.flash("success","Đổi mật khẩu thành công")
     res.redirect("/teacher");
   },
 };

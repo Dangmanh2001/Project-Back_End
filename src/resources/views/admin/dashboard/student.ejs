@@ -24,12 +24,18 @@
   <!-- Thêm nút Import Excel -->
   <input type="file" id="excelFile" />
   <button type="button" onclick="importExcel()" class="btn btn-info">Import Excel</button>
-
+  <% if (success?.length) { %>
+    <div class="alert alert-success"><%= success %></div>
+    <% } %>
 <table class="table table-bordered">
   <tr>
     <th>STT</th>
     <th>Name</th>
     <th>Email</th>
+    <th>Địa chỉ</th>
+    <th>Số điện thoại</th>
+    <th>Lớp đang học</th>
+    <th>Trạng thái</th>
     <th>Sửa</th>
     <th>Xóa</th>
   </tr>
@@ -38,17 +44,21 @@
     <td><%=index+1 %></td>
     <td><%= e.name %></td>
     <td><%= e.email %></td>
+    <td><%= e.address %></td>
+    <td><%= e.phoneNumber %></td>
+    <td><%= e.Student_class.Class.name  %></td>
+    <td><%= e.Student_class.Learning_status.name  %></td>
     <td>
       <a
         href="/admin/editStudent/<%=e.id  %>"
         type="button"
         class="btn btn-warning"
-        >Sửa</a
+        ><i class="fas fa-edit"></i></a
       >
     </td>
     <td>
       <button type="button" class="btn btn-danger btn-delete" onclick="confirmDelete('<%=e.id%>')">
-        <i class="fas fa-trash-alt"></i> Xóa
+        <i class="fas fa-trash-alt"></i>
       </button>
     </td>
   </tr>

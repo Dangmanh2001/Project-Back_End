@@ -4,10 +4,11 @@ const { Op } = require("sequelize");
 
 module.exports = {
   index: async (req, res) => {
+    const content = "Xác thực"
     const message = req.flash("message");
     const user = req.user;
 
-    res.render("auth/verify", { message, user });
+    res.render("auth/verify", { message, user , content });
   },
   handleVerify: async (req, res) => {
     const { otp } = req.body;

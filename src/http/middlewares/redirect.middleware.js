@@ -10,7 +10,10 @@ module.exports = async (req, res, next) => {
       res.redirect("/student/changePass");
     } else if (user?.typeId === 1) {
       res.redirect("/admin/changePass");
-    }else{
+    }else if (user?.typeId === 4) {
+      res.redirect("/teacher/changePass");
+    }
+    else{
       next()
     }
     return
@@ -31,6 +34,10 @@ module.exports = async (req, res, next) => {
         delete req.session.status;
         res.redirect("/student/infor");
         break;
+        case 4:
+        delete req.session.status;
+        res.redirect("/teacher/infor");
+        break;
       default:
         delete req.session.status;
         res.redirect("/auth/login");
@@ -44,6 +51,8 @@ module.exports = async (req, res, next) => {
     res.redirect("/student");
   } else if (user?.typeId === 1) {
     res.redirect("/admin");
+  } else if (user?.typeId === 4) {
+    res.redirect("/teacher");
   }
 
 };

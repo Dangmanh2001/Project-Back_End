@@ -1,0 +1,34 @@
+<!-- Thêm thư viện Chart.js từ CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Thẻ canvas để vẽ biểu đồ -->
+<canvas id="myChart" width="450" height="200"></canvas>
+<script>
+    const labels = ['Học viên', 'Khóa học', 'Lớp học', 'Giảng viên','Trợ giảng']
+    const datasets = '<%-datasets%>'
+    // Assume bạn có dữ liệu số lượng từ server
+    const data = {
+      labels: labels,
+      datasets: [{
+        label: 'Số lượng',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Màu nền của cột
+        borderColor: 'rgba(75, 192, 192, 1)', // Màu viền của cột
+        borderWidth: 1, // Độ rộng của viền
+        data: datasets.split(","), // Dữ liệu số lượng
+      }],
+    };
+  
+    // Lấy thẻ canvas và vẽ biểu đồ
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+      type: 'bar', // Loại biểu đồ là cột
+      data: data,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  </script>
+  

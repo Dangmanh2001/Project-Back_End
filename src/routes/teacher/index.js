@@ -1,12 +1,29 @@
 var express = require("express");
 var router = express.Router();
-const teacherController = require("../../http/controllers/teacher/home.controler");
+const homeController = require("../../http/controllers/teacher/home.controler");
+const studentsController = require("../../http/controllers/teacher/students.controller");
+const classesController = require("../../http/controllers/teacher/classes.controller");
+const courseController = require("../../http/controllers/teacher/course.controller");
 
 /* GET home page. */
-router.get("/", teacherController.index);
-router.get("/infor", teacherController.infor);
-router.get("/changePass",teacherController.changePass)
-router.post("/changePass",teacherController.handleChangePass)
-router.get("/delete/:provider",teacherController.deleteLink)
+router.get("/", homeController.index);
+router.get("/infor", homeController.infor);
+router.post("/infor",homeController.handleInfor)
+router.get("/changePass",homeController.changePass)
+router.post("/changePass",homeController.handleChangePass)
+router.get("/delete/:provider",homeController.deleteLink)
+
+//Student
+router.get("/students", studentsController.student);
+router.get("/students/exportExcel", studentsController.exportExcelStudent);
+
+//Class
+router.get("/classes", classesController.class);
+router.get("/classes/exportExcel", classesController.exportExcelClass);
+
+//Course
+router.get("/courses", courseController.course);
+router.get("/courses/exportExcel", courseController.exportExcelCourse);
+
 
 module.exports = router;

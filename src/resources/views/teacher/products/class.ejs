@@ -1,0 +1,132 @@
+<div class="mb-2">
+    
+    <form action="">
+      <div class="row">
+        <div class="col-10">
+          <input
+            type="text"
+            name="keyword"
+            class="form-control"
+            placeholder="Nhập từ khóa cần tìm..."
+            value="<%= req.query.keyword %>"
+          />
+        </div>
+        <div class="col-2">
+          <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div>
+    <!-- Thêm nút Export Excel -->
+    <a href="/teacher/classes/exportExcel" class="btn btn-success">Export Excel</a>
+  </div>
+  <!-- Thêm nút Import Excel -->
+  <input type="file" id="excelFile" />
+  <button type="button" onclick="importExcel()" class="btn btn-info">
+    Import Excel
+  </button>
+  <% if (success?.length) { %>
+    <div class="alert alert-success"><%= success %></div>
+    <% } %>
+  <table class="table table-bordered">
+    <tr>
+      <th>STT</th>
+      <th>Name</th>
+      <th>Sĩ số</th>
+      <th>Ngày khai giảng</th>
+      <th>Ngày bế giảng</th>
+      <th>Lịch học</th>
+      <th>Thời gian một buổi học</th>
+      <th>Thêm học viên</th>
+      <th>Xóa học viên</th>
+
+    </tr>
+    <% classes?.forEach(e => { %>
+    <tr>
+      <td><%=e.id %></td>
+      <td><%= e.name %></td>
+      <td><%= e.number_of_student %></td>
+      <td><%= e.opening %></td>
+      <td><%= e.closing %></td>
+      <td><%= e.schedule %></td>
+      <td><%= e.study_time %></td>
+      <td>
+        <a
+          href="/teacher/class/addStudent/<%=e.id  %>"
+          type="button"
+          class="btn btn-success"
+          >Thêm học viên</a
+        >
+      </td>
+      <td>
+        <a
+          href="/teacher/class/deleteStudent/<%=e.id  %>"
+          type="button"
+          class="btn btn-danger"
+          >Xóa học viên</a
+        >
+      </td>
+
+    </tr>
+    <% }); %>
+  </table>
+  
+  <div class="pagination">
+    <% if (currentPage > 1) { %>
+    <a
+      href="/teacher/classes?page=1"
+      class="<%= 1 === currentPage ? 'active' : '' %>"
+      >Đầu trang</a
+    >
+    <a href="/teacher/classes?page=<%= currentPage - 1 %>" class="prev"
+      >Trang Trước</a
+    >
+    <% } %> <% for (let i = 1; i <= pageCount; i++) { %>
+    <a
+      href="/teacher/classes?page=<%= i %>"
+      class="<%= i === currentPage ? 'active' : '' %>"
+    >
+      <%= i %>
+    </a>
+    <% } %> <% if (currentPage < pageCount) { %>
+    <a href="/teacher/classes?page=<%= currentPage + 1 %>" class="next"
+      >Trang Sau</a
+    >
+    <a
+      href="/teacher/classes?page=<%= pageCount %>"
+      class="<%= pageCount === currentPage ? 'active' : '' %>"
+      >Cuối trang</a
+    >
+    <% } %>
+  </div>
+  
+  <style>
+    .btn-delete {
+      transition: opacity 0.3s ease;
+    }
+  
+    .btn-delete:hover {
+      opacity: 0.8; /* Giảm độ mờ khi di chuột qua */
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+  
+    .pagination a {
+      color: #007bff;
+      padding: 8px 12px;
+      margin: 0 5px;
+      text-decoration: none;
+      border: 1px solid #007bff;
+      border-radius: 4px;
+    }
+  
+    .pagination a.active {
+      background-color: #007bff;
+      color: #fff;
+    }
+  </style>

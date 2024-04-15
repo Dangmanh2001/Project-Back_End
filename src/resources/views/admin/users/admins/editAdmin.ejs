@@ -1,10 +1,13 @@
 <% if (message?.length) { %>
 <div class="alert alert-danger"><%= message %></div>
 <% } %>
+<% if (success?.length) { %>
+  <div class="alert alert-success"><%= success %></div>
+  <% } %>
 <form action="" method="post">
   <div class="mb-3">
     <label for="">Tên</label>
-    <input type="text" name="name" placeholder="Tên..." class="form-control" />
+    <input type="text" name="name" value="<%=admin.name  %>" class="form-control" />
     <span class="text-danger"></span>
   </div>
   <div class="mb-3">
@@ -12,7 +15,7 @@
     <input
       type="text"
       name="email"
-      placeholder="Email..."
+      value="<%=admin.email  %>"
       class="form-control"
     />
     <span class="text-danger"></span>
@@ -27,6 +30,7 @@
     />
     <span class="text-danger"></span>
   </div>
+  
 
   <button class="btn btn-success">Lưu</button>
   <a href="/admin" class="btn btn-danger">Hủy</a>

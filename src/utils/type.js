@@ -6,6 +6,8 @@ module.exports = (req, res, next) => {
     type = "student";
   } else if (user.typeId === 1) {
     type = "admin";
+  }else if (user.typeId === 4) {
+    type = "teacher";
   }
   next();
 };

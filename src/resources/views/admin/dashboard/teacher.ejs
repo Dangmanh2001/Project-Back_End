@@ -1,4 +1,6 @@
 <!-- Trong file admin/dashboard/teacher.ejs -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-yS1r4/OJvYKb+ZriTpWML4/9UeSpEnJfM+3vOMR0uJSt0beqIMSeJX2MXoNExgF5" crossorigin="anonymous">
+
 
 <div class="mb-2">
   <a href="/admin/addTeacher" class="btn btn-primary mb-2">Thêm mới</a>
@@ -28,13 +30,17 @@
 <button type="button" onclick="importExcel()" class="btn btn-info">
   Import Excel
 </button>
-
+<% if (success?.length) { %>
+  <div class="alert alert-success"><%= success %></div>
+  <% } %>
 <table class="table table-bordered">
   <tr>
     <th>STT</th>
     <th>Name</th>
     <th>Email</th>
-    <th>Lớp đang dạy</th>
+    <th>Địa chỉ</th>
+    <th>Số điện thoại</th>
+    <th>Lịch dạy</th>
     <th>Sửa</th>
     <th>Xóa</th>
   </tr>
@@ -43,12 +49,22 @@
     <td><%= index + 1 %></td>
     <td><%= e.name %></td>
     <td><%= e.email %></td>
+    <td><%= e.address %></td>
+    <td><%= e.phoneNumber %></td>
+    <td>
+      <a
+        href="/admin/teachers/calendar/<%= e.id %>"
+        type="button"
+        class="btn btn-secondary "
+        ><i class="fas fa-calendar"></i></a
+      >
+    </td>
     <td>
       <a
         href="/admin/editTeacher/<%= e.id %>"
         type="button"
         class="btn btn-warning"
-        >Sửa</a
+        ><i class="fas fa-edit"></i></a
       >
     </td>
     <!-- Thêm nút "Xóa" -->
@@ -59,7 +75,7 @@
         class="btn btn-danger btn-delete"
         onclick="confirmDelete('<%=e.id%>')"
       >
-        <i class="fas fa-trash-alt"></i> Xóa
+        <i class="fas fa-trash-alt"></i>
       </button>
     </td>
   </tr>
